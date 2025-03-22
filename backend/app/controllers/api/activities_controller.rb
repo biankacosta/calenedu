@@ -11,6 +11,7 @@ class Api::ActivitiesController < ApplicationController
     end
   
     def create
+      Rails.logger.info "Current User: #{current_user.inspect}"
       begin
         @activity = ActivityCreator.call(current_user, activity_params)
         render json: @activity, status: :created
