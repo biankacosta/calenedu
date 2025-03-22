@@ -8,11 +8,6 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, if: :password_required?
-
-  private
-
-  def password_required?
-    new_record? || password.present?
-  end
+  validates :password, presence: true, on: :create
+  validates :grade, presence: true, if: -> { aluno? }, on: :create
 end
