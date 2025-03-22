@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  date: 2025-03-22
+  time: 2025-03-22 00:41:48
+  classification: MyString
+  status: MyString
+  creator_id: 1
+  course: one
+
+two:
+  title: MyString
+  description: MyText
+  date: 2025-03-22
+  time: 2025-03-22 00:41:48
+  classification: MyString
+  status: MyString
+  creator_id: 1
+  course: two

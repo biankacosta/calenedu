@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  activity: one
+  student: one
+  status: MyString
+
+two:
+  activity: two
+  student: two
+  status: MyString
