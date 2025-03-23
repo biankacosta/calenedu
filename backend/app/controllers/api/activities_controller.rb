@@ -21,11 +21,12 @@ class Api::ActivitiesController < ApplicationController
     end
   
     def update
-      if @activity.update(activity_params)
-        render json: @activity
-      else
-        render json: @activity.errors, status: :unprocessable_entity
-      end
+      activity = Activity.find(params[:id])
+  
+      ActivityUpdate.new(activity, activity_params).call
+      render json: { message: "Atividade atualizada com sucesso." }, status: :ok
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   
     def destroy

@@ -38,6 +38,13 @@ class Api::UsersController < ApplicationController
       @user.destroy
       head :no_content
     end
+
+    def activities
+      user = User.find(params[:id])
+      activities = user.activities
+    
+      render json: activities
+    end
   
     private
   

@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+    # Captura todas as exceções não tratadas e retorna uma resposta genérica.
+    rescue_from StandardError, with: :handle_internal_error
     before_action :authorize_request
 
     def current_user
@@ -37,5 +39,10 @@ class ApplicationController < ActionController::API
             render json: { error: 'Ocorreu um erro inesperado' }, status: :internal_server_error
             return
         end
+    end
+
+    def handle_internal_error(exception)
+        Rails.logger.error "Erro inesperado: #{exception.message}"
+        render json: { error: 'Ocorreu um erro inesperado' }, status: :internal_server_error
     end
 end

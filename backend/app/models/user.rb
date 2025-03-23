@@ -2,7 +2,8 @@ class User < ApplicationRecord
   has_secure_password
   
   belongs_to :grade, optional: true
-  has_many :activities, foreign_key: :creator_id, dependent: :destroy
+  has_many :student_activities, dependent: :destroy
+  has_many :activities, through: :student_activities
 
   enum role: { admin: "admin", aluno: "aluno" }
 

@@ -5,7 +5,7 @@ class Activity < ApplicationRecord
   has_many :grade_activities, dependent: :destroy
   has_many :grades, through: :grade_activities
   has_many :student_activities, dependent: :destroy
-  has_many :users, through: :student_activities
+  has_many :users, through: :student_activities, source: :user
 
   enum classification: { tarefa: "tarefa", evento: "evento", prova: "prova" }
   enum status: { pendente: "pendente", ativo: "ativo", cancelado: "cancelado" }

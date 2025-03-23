@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   namespace :api do
     post 'auth/login', to: 'auth#login'
 
-    resources :users
+    resources :users do
+      get :activities, on: :member 
+    end
     resources :grades
     resources :activities do
       collection do
@@ -12,8 +14,8 @@ Rails.application.routes.draw do
       end
     end
     resources :courses
-    resources :grade_activities, only: [:create, :destroy]
-    resources :student_activities, only: [:create, :update, :destroy]
+    resources :grade_activities, only: [:get, :create, :destroy]
+    resources :student_activities, only: [:get, :create, :update, :destroy]
   end
 
 end
