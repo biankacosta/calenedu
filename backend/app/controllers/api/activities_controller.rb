@@ -2,8 +2,18 @@ class Api::ActivitiesController < ApplicationController
     before_action :set_activity, only: [:show, :update, :destroy]
   
     def index
-      @activities = Activity.all
-      render json: @activities
+      user = current_user
+      start_date = params[:start_date] || Date.current.beginning_of_month
+      end_date = params[:end_date] || Date.current.end_of_month
+    
+      # Validação das datas
+      if start_date > end_date
+        return render json: { error: "Data inicial não pode ser maior que data final" }, status: :bad_request
+      end
+    
+      activities = fetch_activities(user, start_date, end_date)
+    
+      render json: activities, each_serializer: Api::ActivitySerializer
     end
   
     def show
@@ -35,6 +45,11 @@ class Api::ActivitiesController < ApplicationController
     end
   
     private
+
+    def fetch_activities(user, start_date, end_date)
+      base_scope = user.aluno? ? Activity.for_student(user) : user.created_activities
+      base_scope.within_date_range(start_date, end_date)
+    end
   
     def set_activity
       @activity = Activity.find(params[:id])

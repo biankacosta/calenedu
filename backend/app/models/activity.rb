@@ -19,4 +19,20 @@ class Activity < ApplicationRecord
   def geral?
     all_grades
   end
+
+  # Scope para filtrar por intervalo de datas
+  scope :within_date_range, ->(start_date, end_date) { 
+    where(date: start_date..end_date) 
+  }
+
+  # Escopos para consultas
+  scope :for_student, ->(user) {
+    left_joins(:grade_activities)
+      .where("(classification IN ('prova', 'evento', 'tarefa') AND ((creator_id = :user_id) OR
+            (creator_id != :user_id AND (all_grades = true OR grade_activities.grade_id = :grade_id))))",
+        grade_id: user.grade_id, 
+        user_id: user.id
+      )
+      .distinct
+  }
 end
