@@ -1,9 +1,12 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import { useEffect, useState } from "react";
 import { getEvents, CalendarEvent } from "../services/eventService";
 import AddActivityModal from "./AddActivityModal";
-import { createActivity, ActivityData } from "../services/activityService";
+import { createActivity, updateActivity } from "../services/activityService";
+import ActivityDetailsModal from "./ActivityDetailsModal";
+import ActivityEditModal from "./ActivityEditModal";
 import Button from "./Button";
 import api from "../services/api";
 
@@ -11,6 +14,8 @@ const Calendar = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   // Função para buscar eventos com base no intervalo de datas
   const fetchEvents = async (startDate: string, endDate: string) => {
@@ -33,8 +38,13 @@ const Calendar = () => {
     setIsModalOpen(false);
   };
 
+  const handleCloseModals = () => {
+    setIsEditOpen(false);
+    setSelectedEvent(null);
+  };
+
+  
   const handleAddActivity = async (data: { title: string; description: string; date: string; time: string }) => {
-    console.log("Atividade adicionada:", data);
     if (!data.title.trim()) {
       alert("O campo Nome é obrigatório.");
       return;
@@ -43,7 +53,6 @@ const Calendar = () => {
     try {
       const newActivity = await createActivity(data);
       console.log("Atividade criada com sucesso:", newActivity);
-      // Se necessário, atualize o estado dos eventos ou mostre uma mensagem de sucesso.
     } catch (error) {
       console.error("Erro ao criar atividade:", error);
       alert("Ocorreu um erro ao criar a atividade. Tente novamente.");
@@ -51,31 +60,75 @@ const Calendar = () => {
       handleCloseModal();
     }
   };
+  
+  const handleSubmitEdit = async (data: { title: string; description: string; date: string; time: string }) => {
+    if (!data.title.trim()) {
+      alert("O campo Nome é obrigatório.");
+      return;
+    }
+
+    if (!selectedEvent) {
+      alert("Nenhum evento selecionado.");
+      return;
+    }
+
+    try {
+      const updatedActivity = await updateActivity(selectedEvent.id, data);
+      console.log("Atividade editada com sucesso:", updatedActivity);
+    } catch (error) {
+      console.error("Erro ao atualizar atividade:", error);
+      alert("Ocorreu um erro ao atualizar a atividade. Tente novamente.");
+    } finally {
+      handleCloseModal();
+    }
+
+    console.log("Atividade editada:", data);
+  };
+
+  const handleEdit = () => {
+    setIsEditOpen(true);
+  };
+
+  const handleDelete = async (activityId: string) => {
+    console.log("Atividade deletada:", activityId);
+  };
 
   return (
     <div>
 
       <FullCalendar
-        plugins={[dayGridPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={events}
+        height="70vh"
         headerToolbar={{
             left: "title",
             center: "prev,next today",
             right: "AddActivityButton",
           }}
-          customButtons={{
-            AddActivityButton: {
-              text: "Adicionar Tarefa",
-              click: handleOpenModal,
-            },
-          }}
+        customButtons={{
+          AddActivityButton: {
+            text: "Adicionar Tarefa",
+            click: handleOpenModal,
+          },
+        }}
         datesSet={(info) => {
           setDateRange({
             start: info.startStr,
             end: info.endStr,
           });
         }}
+        eventClick={(info) => {
+          console.log("Evento clicado:", info.event.id, "Tipo:", typeof info.event.id);
+          console.log("Eventos disponíveis:", events.map(e => ({ id: e.id, type: typeof e.id })));
+          const event = events.find((e) => String(e.id) === info.event.id);
+          console.log("Evento clicado:", info.event);
+          console.log(selectedEvent)
+          if (event) {
+            setSelectedEvent(event);
+          }
+        }}
+        
       />
 
       <AddActivityModal
@@ -83,6 +136,20 @@ const Calendar = () => {
         onClose={handleCloseModal}
         onSubmit={handleAddActivity}
       />
+
+      {selectedEvent && !isEditOpen && (
+        <ActivityDetailsModal event={selectedEvent} onClose={() => setSelectedEvent(null)} onDelete={handleDelete} onEdit={handleEdit}/>
+      )}
+
+      {/* Modal de edição */}
+      {selectedEvent && isEditOpen && (
+        <ActivityEditModal
+          isOpen={isEditOpen}
+          activity={selectedEvent}
+          onClose={handleCloseModals}
+          onSubmit={handleSubmitEdit}
+        />
+      )}
     </div>
   );
 };
