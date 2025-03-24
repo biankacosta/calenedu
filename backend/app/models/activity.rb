@@ -15,6 +15,9 @@ class Activity < ApplicationRecord
   validates :classification, presence: true, inclusion: { in: classifications.keys }
   validates :status, presence: true, inclusion: { in: statuses.keys }
 
+  before_validation :student_activity_classification_tarefa, on: :create
+
+
   # Método para verificar se a atividade é geral
   def geral?
     all_grades
@@ -35,4 +38,13 @@ class Activity < ApplicationRecord
       )
       .distinct
   }
+
+  private
+
+  def student_activity_classification_tarefa
+    if creator&.role == "aluno"
+      self.classification = "tarefa"
+    end
+    self.status ||= "ativo"
+  end
 end
