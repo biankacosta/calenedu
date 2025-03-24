@@ -1,6 +1,6 @@
 import api from "./api";
 
-// Definição do tipo de evento (ajuste se necessário)
+// Definição do tipo de evento
 export interface CalendarEvent {
   id: string;
   title: string;
