@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
 
 import Login from "../pages/Login";
 import CalendarView from "../pages/CalendarView";
@@ -18,13 +18,22 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+//Função para proteger as rotas após o logout
+const PrivateRoute = () => {
+  const token = localStorage.getItem("token");
+
+  return token ? <Outlet /> : <Navigate to="/" />;
+};
+
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Layout>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/calendar" element={<CalendarView />} />
+            <Route element={<PrivateRoute />}>
+                <Route path="/calendar" element={<CalendarView />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
       </Layout>
