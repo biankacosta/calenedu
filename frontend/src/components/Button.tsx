@@ -17,11 +17,11 @@ const Button: React.FC<ButtonProps> = ({
   children,
   disabled,
 }) => {
-  const baseClasses = "middle none center m-2 rounded-lg px-6 py-2 font-medium cursor-pointer transition-colors active:opacity-[0.85]";
+  const baseClasses = "middle none center rounded-lg px-6 py-2 font-medium cursor-pointer transition-colors active:opacity-[0.85]";
   const variantClasses = {
-    primary: "bg-primary hover:bg-purple-700 text-white",
+    primary: "bg-primary hover:bg-[rgb(28,0,85)] text-white",
     outline: "text-[rgb(105,64,185)] border border-[rgb(105,64,185)] hover:bg-[rgb(105,64,185)] hover:text-white",
-    warning: "bg-red-500 hover:bg-pink-600 text-white",
+    warning: "bg-red-500 hover:bg-red-700 text-white",
   };
 
   return (

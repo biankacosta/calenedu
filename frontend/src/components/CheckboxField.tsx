@@ -1,25 +1,36 @@
 import React from "react";
 
 interface CheckboxFieldProps {
-  label: string;
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckboxField: React.FC<CheckboxFieldProps> = ({ label, checked, onChange }) => {
+const CheckboxField: React.FC<CheckboxFieldProps> = ({
+  checked,
+  onChange,
+}) => {
   return (
-    <div className="flex items-center mt-4">
-      <input
-        type="checkbox"
-        id="checkbox-field"
-        checked={checked}
-        onChange={onChange}
-        className="mr-2"
-      />
-      <label htmlFor="checkbox-field" className="text-sm text-gray-700">
-        {label}
-      </label>
-    </div>
+    <label className="flex items-center cursor-pointer">
+      <div className={`relative w-8 h-8 border-2 rounded-md ${checked ? 'border-purple-600 bg-purple-600' : 'border-gray-300'}`}>
+        {checked && (
+          <svg 
+            className="absolute self-baseline inset-0 w-full h-full text-white p-0.5" 
+            fill="none" 
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          </svg>
+        )}
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={onChange}
+          className="absolute opacity-0 w-full h-full cursor-pointer"
+        />
+      </div>
+      <span className="text-base text-gray-700"></span>
+    </label>
   );
 };
 
