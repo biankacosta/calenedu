@@ -26,16 +26,3 @@ export const getEvents = async (startDate: string, endDate: string): Promise<Cal
     return [];
   }
 };
-
-// Função para buscar atividades no backend dentro de um intervalo de datas
-export const deleteEvent = async (startDate: string, endDate: string): Promise<CalendarEvent[]> => {
-  try {
-    const response = await api.get<CalendarEvent[]>("/activities", {
-      params: { start_date: startDate, end_date: endDate }, 
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao deletar atividade. Por favor tente novamente", error);
-    return [];
-  }
-};

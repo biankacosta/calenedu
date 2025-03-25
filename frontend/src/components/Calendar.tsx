@@ -4,9 +4,10 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useEffect, useState } from "react";
 import { getEvents, CalendarEvent } from "../services/eventService";
 import AddActivityModal from "./AddActivityModal";
-import { createActivity, updateActivity } from "../services/activityService";
+import { createActivity, updateActivity, deleteActivity } from "../services/activityService";
 import ActivityDetailsModal from "./ActivityDetailsModal";
 import ActivityEditModal from "./ActivityEditModal";
+import ConfirmationModal from "./ConfirmationModal";
 import Button from "./Button";
 import api from "../services/api";
 
@@ -34,15 +35,11 @@ const Calendar = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCloseModals = () => {
+    setIsModalOpen(false);
     setIsEditOpen(false);
     setSelectedEvent(null);
   };
-
   
   const handleAddActivity = async (data: { title: string; description: string; date: string; time: string }) => {
     if (!data.title.trim()) {
@@ -57,7 +54,7 @@ const Calendar = () => {
       console.error("Erro ao criar atividade:", error);
       alert("Ocorreu um erro ao criar a atividade. Tente novamente.");
     } finally {
-      handleCloseModal();
+      handleCloseModals();
     }
   };
   
@@ -79,18 +76,27 @@ const Calendar = () => {
       console.error("Erro ao atualizar atividade:", error);
       alert("Ocorreu um erro ao atualizar a atividade. Tente novamente.");
     } finally {
-      handleCloseModal();
+      handleCloseModals();
     }
 
     console.log("Atividade editada:", data);
   };
 
-  const handleEdit = () => {
-    setIsEditOpen(true);
+  const handleDeleteActivity = async () => {
+    if (!selectedEvent) return;
+    
+    try {
+      await deleteActivity(selectedEvent.id);
+      console.error("Atividade excluída:", selectedEvent.id);
+    } catch (error) {
+      console.error("Erro ao excluir atividade:", error);
+    } finally {
+      handleCloseModals();
+    }
   };
 
-  const handleDelete = async (activityId: string) => {
-    console.log("Atividade deletada:", activityId);
+  const handleEdit = () => {
+    setIsEditOpen(true);
   };
 
   return (
@@ -133,12 +139,12 @@ const Calendar = () => {
 
       <AddActivityModal
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        onClose={handleCloseModals}
         onSubmit={handleAddActivity}
       />
 
       {selectedEvent && !isEditOpen && (
-        <ActivityDetailsModal event={selectedEvent} onClose={() => setSelectedEvent(null)} onDelete={handleDelete} onEdit={handleEdit}/>
+        <ActivityDetailsModal event={selectedEvent} onClose={() => setSelectedEvent(null)} onDelete={handleDeleteActivity} onEdit={handleEdit}/>
       )}
 
       {/* Modal de edição */}

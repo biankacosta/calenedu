@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { CalendarEvent } from "../services/eventService";
 import Button from "./Button";
+import ConfirmationModal from "./ConfirmationModal";
 
 interface ActivityDetailsModalProps {
   event: CalendarEvent;
@@ -10,12 +11,21 @@ interface ActivityDetailsModalProps {
 }
 
 const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ event, onClose, onDelete, onEdit }) => {
+    const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
     const handleDelete = () => {
-        if (window.confirm("Você tem certeza que deseja deletar esta atividade?")) {
-          onDelete(event.id);
-          onClose();
-        }
-      };
+      onDelete(event.id);
+      setIsConfirmationOpen(false);
+      onClose();
+    };
+  
+    const handleConfirmationCancel = () => {
+      setIsConfirmationOpen(false);
+    };
+  
+    const handleDeleteClick = () => {
+      setIsConfirmationOpen(true);
+    };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -25,9 +35,18 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ event, onCl
             <h2 className="text-xl font-bold">{event.title}</h2>
             {event.description && <p className="mt-2">{event.description}</p>}
             <p className="mt-2 text-gray-600"> Data: {event.date} </p>
-            <Button onClick={handleDelete}> Excluir atividade </Button>
+            <Button onClick={handleDeleteClick}> Excluir atividade </Button>
             <Button onClick={onEdit}> Editar atividade </Button>
         </div>
+
+          {/* Modal de confirmação */}
+        <ConfirmationModal
+          isOpen={isConfirmationOpen}
+          title="Confirmar Exclusão"
+          message="Você tem certeza que deseja deletar esta atividade?"
+          onConfirm={handleDelete}
+          onCancel={handleConfirmationCancel}
+        />
         </div>
   );
 };
