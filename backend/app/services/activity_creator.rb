@@ -2,7 +2,9 @@ class ActivityCreator
   def self.call(creator, params)
 
     ActiveRecord::Base.transaction do
-      activity = Activity.create!(params.except(:all_grades, :grade_ids).merge(creator_id: creator.id))
+      all_grades = ActiveRecord::Type::Boolean.new.cast(params[:all_grades])
+      all_grades = false if all_grades.nil?
+      activity = Activity.create!(params.except(:grade_ids).merge(creator_id: creator.id, all_grades: all_grades))
 
       unless params[:all_grades] || params[:grade_ids].blank?
         params[:grade_ids].each do |grade_id|

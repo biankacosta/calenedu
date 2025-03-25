@@ -1,6 +1,6 @@
 module Api
   class ActivitySerializer < ActiveModel::Serializer
-    attributes :id, :title, :time, :formatted_time, :description, :date, :classification, :course, :status, :all_grades
+    attributes :id, :creator_id, :title, :time, :formatted_time, :description, :date, :classification, :course, :status, :all_grades
 
     attribute :activity_done do
       object.student_activities.find { |sa| sa.user_id == current_user.id }&.activity_done || false

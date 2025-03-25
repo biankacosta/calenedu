@@ -56,6 +56,6 @@ class Api::ActivitiesController < ApplicationController
     end
   
     def activity_params
-      params.require(:activity).permit(:title, :description, :date, :time, :classification, :status, :creator_id, :course_id, :all_grades, grade_ids: [])
+      params.require(:activity).permit(:title, :description, :date, :time, :classification, :status, :creator_id, :course_id, :all_grades, :activity_done, grade_ids: [])
     end
   end

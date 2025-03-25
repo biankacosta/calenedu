@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :grade, optional: true
   has_many :student_activities, dependent: :destroy
   has_many :activities, through: :student_activities
+  has_many :created_activities, class_name: "Activity", foreign_key: "creator_id"
 
   enum role: { admin: "admin", aluno: "aluno" }
 

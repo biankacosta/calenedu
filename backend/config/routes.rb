@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     end
     resources :courses
     resources :grade_activities, only: [:get, :create, :destroy]
-    resources :student_activities, only: [:get, :create, :update, :destroy]
+    resources :student_activities, only: [:get, :create, :update, :destroy] do
+        patch :update_status, on: :collection
+    end
   end
 
 end
