@@ -3,7 +3,9 @@ import api from "./api";
 // Definição do tipo de evento
 export interface CalendarEvent {
   id: string;
+  creator_id: string;
   title: string;
+  classification: string;
   description?: string;
   status: string;
   activity_done: boolean;

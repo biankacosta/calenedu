@@ -6,6 +6,8 @@ export interface ActivityData {
   description: string;
   date: string;
   time: string;
+  all_grades: false;
+  activity_done?: boolean;
 }
 
 //Função assíncrone de criação de atividade
@@ -34,5 +36,18 @@ export const deleteActivity = async (id: string) => {
     return response.data;
   } catch (error) {
     console.error("Erro ao deletar atividade. Por favor tente novamente", error);
+  }
+};
+
+export const updateActivityDone = async (activityId: string, userId: string, done: boolean) => {
+  try {
+    const response = await api.patch(`/student_activities/update_status`, {
+      activity_id: activityId,
+      activity: { activity_done: done },
+      user_id: userId
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };
