@@ -17,7 +17,7 @@ const TextField: React.FC<TextFieldProps> = ({type, label, value, onChange, plac
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="mt-1 p-2 border border-gray-300 rounded w-full"
+        className="mt-1 block p-2 text-gray-700 border border-gray-300 w-full bg-gray-100 h-11 rounded-xl hover:bg-blue-100 focus:bg-blue-100 placeholder-gray-400"
       />
     </div>
   );
