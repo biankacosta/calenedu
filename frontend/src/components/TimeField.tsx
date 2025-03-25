@@ -1,3 +1,4 @@
+// TimeField.tsx
 import React from "react";
 
 interface TimeFieldProps {
@@ -10,11 +11,11 @@ const TimeField: React.FC<TimeFieldProps> = ({ value, onChange }) => {
     <div className="mb-4">
       <label className="block text-sm font-medium text-gray-700">Hora</label>
       <input
-        type="text"
+        type="time"
         value={value}
         onChange={onChange}
-        placeholder="HH:mm"
         className="mt-1 p-2 border border-gray-300 rounded w-full"
+        step="300"
       />
     </div>
   );
