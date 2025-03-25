@@ -4,19 +4,22 @@ import Button from "./Button";
 import calenEdu from "../assets/CalenEdu.png";
 
 const Header = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
-        navigate("/");
-    };
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
-    return (
-    <div className="relative flex items-center justify-between w-full text-gray-default py-5 px-10 gap-4 bg-white z-50">
+  return (
+    <div>
+      <div className="relative flex items-center justify-between w-full text-gray-default py-5 px-50 gap-4 bg-white z-50">
         <img src={calenEdu} alt="Logo" className="w-52" />
         <Button onClick={handleLogout}>Sair</Button>
+      </div>
+      <hr className="mb-6 border-gray-300" />
     </div>
-    );
+  );
 };
 
 export default Header;

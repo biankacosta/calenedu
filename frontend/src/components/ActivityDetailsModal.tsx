@@ -3,7 +3,7 @@ import { CalendarEvent } from "../services/eventService";
 import Button from "./Button";
 import ConfirmationModal from "./ConfirmationModal";
 import CheckboxField from "./CheckboxField";
-import { updateActivityDone } from "../services/activityService";
+import { useActivityDone } from "../hooks/useActivityDone";
 
 interface ActivityDetailsModalProps {
   event: CalendarEvent;
@@ -22,11 +22,11 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
   const [activityDone, setActivityDone] = useState(
     event.activity_done || false
   );
+  const { loading, handleCheckboxUpdate } = useActivityDone();
 
   // Verificação se o usuário logado é o criador da atividade
   const userId = localStorage.getItem("user_id");
   const isOwner = event.creator_id.toString() === userId;
-  const [loading, setLoading] = useState(false);
 
   const isTarefa = event.classification.toString() === "tarefa";
   console.log(isTarefa);
@@ -36,18 +36,9 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
   ) => {
     const newValue = e ? e.target.checked : true;
     setActivityDone(newValue);
-    try {
-      const userId = localStorage.getItem("user_id");
-      if (!userId) throw new Error("Usuário não autenticado");
-
-      setLoading(true);
-      await updateActivityDone(event.id, userId, newValue);
-      console.log("Status atualizado para:", newValue);
-    } catch (error) {
-      console.error("Erro ao atualizar status:", error);
+    const result = await handleCheckboxUpdate(event.id, newValue);
+    if (!result.success) {
       setActivityDone(!newValue);
-    } finally {
-      setLoading(false);
     }
   };
 

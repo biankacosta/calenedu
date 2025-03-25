@@ -16,6 +16,7 @@ interface ActivityEditModalProps {
     description: string;
     date: string;
     time: string;
+    all_grades: false;
   }) => void;
 }
 
@@ -56,6 +57,7 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
       description,
       date: date.toISOString(),
       time,
+      all_grades: false
     });
     onClose();
   };

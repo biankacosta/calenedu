@@ -14,6 +14,7 @@ interface ActivityModalProps {
     description: string;
     date: string;
     time: string;
+    all_grades: false;
   }) => void;
 }
 
@@ -26,6 +27,7 @@ const AddActivityModal: React.FC<ActivityModalProps> = ({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
+  
 
   const handleSubmit = () => {
     onSubmit({
@@ -33,6 +35,7 @@ const AddActivityModal: React.FC<ActivityModalProps> = ({
       description,
       date: date.toISOString(),
       time,
+      all_grades: false
     });
     onClose();
   };

@@ -3,15 +3,22 @@ import React from "react";
 interface CheckboxFieldProps {
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  size?: "small" | "medium" | "large";
 }
 
 const CheckboxField: React.FC<CheckboxFieldProps> = ({
   checked,
   onChange,
+  size = "large",
 }) => {
+  const sizeClasses = {
+    small: "w-4 h-4 scale-75",
+    medium: "w-5 h-5",
+    large: "w-8 h-8 scale-110",
+  };
   return (
     <label className="flex items-center cursor-pointer">
-      <div className={`relative w-8 h-8 border-2 rounded-md ${checked ? 'border-purple-600 bg-purple-600' : 'border-gray-300'}`}>
+      <div className={`relative border-2 rounded-md ${sizeClasses[size]} ${checked ? 'border-purple-600 bg-purple-600' : 'border-gray-300'}`}>
         {checked && (
           <svg 
             className="absolute self-baseline inset-0 w-full h-full text-white p-0.5" 
@@ -29,7 +36,6 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
           className="absolute opacity-0 w-full h-full cursor-pointer"
         />
       </div>
-      <span className="text-base text-gray-700"></span>
     </label>
   );
 };

@@ -5,9 +5,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  /* color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87); */
-
   --color-primary: 116, 58, 192;
   --color-secondary: 47, 212, 199;
 
@@ -23,6 +20,64 @@
 
 .bg-secondary {
   background-color: rgb(var(--color-secondary));
+}
+
+.fc-row-header {
+  border-radius: 16px !important;
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fc-prev-button {
+  border-radius: 6px 0px 0px 6px !important;
+  background-color: #2fd4c7 !important;
+  border: none !important;
+}
+
+.fc-next-button {
+  border-radius: 0px 6px 6px 0px !important;
+  background-color: #2fd4c7 !important;
+  border: none !important;
+}
+.fc-prev-button:hover,
+.fc-next-button:hover {
+  background-color: #00b9aa !important;
+}
+
+.fc-event {
+  padding: 4px 6px !important;
+  margin: 2px !important;
+}
+
+.fc-today-button,
+.fc-AddActivityButton-button {
+  font-weight: 700;
+  border-radius: 6px !important;
+  background-color: #743ac0 !important;
+  border: none !important;
+}
+
+.fc-today-button:hover,
+.fc-AddActivityButton-button:hover {
+  border-radius: 6px !important;
+  background-color: #430b8b !important;
+  border: none !important;
+}
+
+.fc-scrollgrid-section > td {
+  border-radius: 0px 0px 16px 16px !important;
+}
+
+.fc-scrollgrid-section > th {
+  border-radius: 0px 16px 0px 0px !important;
+}
+
+.fc-scrollgrid {
+  border-radius: 16px !important;
 }
 
 /* button {

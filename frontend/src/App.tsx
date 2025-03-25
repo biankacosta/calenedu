@@ -3,7 +3,7 @@ import './App.css'
 
 const App = () => {
   return (
-    <div className="h-full min-h-screen bg-gray-50">
+    <div className="h-full min-h-screen">
         <AppRoutes />
     </div>
   )
