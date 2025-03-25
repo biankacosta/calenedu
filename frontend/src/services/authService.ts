@@ -16,3 +16,7 @@ export const login = async (email: string, password: string): Promise<string | n
     return null;
   }
 };
+
+export const logout = () => {
+  localStorage.removeItem("token");
+};
