@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "./TextField";
 import DateField from "./DateField";
 import TimeField from "./TimeField";
+import { TextArea } from "./TextArea";
 import Button from "./Button";
 import { CalendarEvent } from "../services/eventService";
 
@@ -70,8 +71,7 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <TextField
-          type="text"
+        <TextArea
           label="Descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}

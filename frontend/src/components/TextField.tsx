@@ -11,7 +11,7 @@ interface TextFieldProps {
 const TextField: React.FC<TextFieldProps> = ({type, label, value, onChange, placeholder }) => {
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <label className="block text-base font-medium text-gray-700">{label}</label>
       <input
         type="text"
         value={value}

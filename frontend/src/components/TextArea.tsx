@@ -15,7 +15,7 @@ interface TextAreaProps {
   }) => {
     return (
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">{label}</label>
+        <label className="block text-base font-medium text-gray-700">{label}</label>
         <textarea
           value={value}
           onChange={onChange}
