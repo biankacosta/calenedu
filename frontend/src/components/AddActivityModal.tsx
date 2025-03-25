@@ -29,11 +29,11 @@ const AddActivityModal: React.FC<ActivityModalProps> = ({ isOpen, onClose, onSub
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-gray-500 bg-opacity-15 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg w-96">
         <h2 className="text-lg font-medium text-gray-900 mb-4">Adicionar Atividade</h2>
-        <TextField label="Nome" value={title} onChange={(e) => setName(e.target.value)} />
-        <TextField label="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} />
+        <TextField type="text" label="Nome" value={title} onChange={(e) => setName(e.target.value)} />
+        <TextField type="text" label="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} />
         <DateField selectedDate={date} onChange={setDate} />
         <TimeField value={time} onChange={(e) => setTime(e.target.value)} />
 

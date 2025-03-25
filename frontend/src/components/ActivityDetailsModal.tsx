@@ -28,7 +28,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ event, onCl
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-15 flex items-center justify-center z-50">
         <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <Button onClick={onClose}> X </Button>
             <p className="mt-2 text-gray-600"> Concluído: {event.activity_done ? "Sim" : "Não"}</p>

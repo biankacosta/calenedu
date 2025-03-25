@@ -9,11 +9,17 @@ interface ActivityEditModalProps {
   isOpen: boolean;
   activity: CalendarEvent;
   onClose: () => void;
-  onSubmit: (data: { title: string; description: string; date: string; time: string }) => void;
+  onSubmit: (data: {
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+  }) => void;
 }
 
 const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
-  isOpen, activity, onClose, onSubmit, }) => {
+  isOpen, activity, onClose, onSubmit,
+}) => {
   const [title, setTitle] = useState(activity.title);
   const [description, setDescription] = useState(activity.description || "");
   const [date, setDate] = useState<Date>(() => {
@@ -29,10 +35,11 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
     setDate(isNaN(parsedDate.getTime()) ? new Date() : parsedDate);
 
     if (activity.formatted_time) {
-        setTime(activity.formatted_time);
-      } else {
-        setTime("12:00");
-      }}, [activity]);
+      setTime(activity.formatted_time);
+    } else {
+      setTime("12:00");
+    }
+  }, [activity]);
 
   const handleSubmit = () => {
     if (!title.trim()) {
@@ -40,7 +47,11 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
       return;
     }
     onSubmit({
-      title, description, date: date.toISOString(), time, });
+      title,
+      description,
+      date: date.toISOString(),
+      time,
+    });
     onClose();
   };
 
@@ -48,24 +59,32 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+      
       <div className="bg-white p-6 rounded shadow-lg w-96">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Editar Atividade</h2>
+        <h2 className="text-lg font-medium text-gray-900 mb-4">
+          Editar Atividade
+        </h2>
         <TextField
+          type="text"
           label="Título"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <TextField
+          type="text"
           label="Descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <DateField selectedDate={date} onChange={(newDate) => setDate(newDate || new Date())} />
+        <DateField
+          selectedDate={date}
+          onChange={(newDate) => setDate(newDate || new Date())}
+        />
         <TimeField value={time} onChange={(e) => setTime(e.target.value)} />
 
         <div className="mt-4 flex justify-end">
-            <Button onClick={onClose}> Cancelar </Button>
-            <Button onClick={handleSubmit}> Salvar Alterações </Button>
+          <Button onClick={onClose}> Cancelar </Button>
+          <Button onClick={handleSubmit}> Salvar Alterações </Button>
         </div>
       </div>
     </div>
