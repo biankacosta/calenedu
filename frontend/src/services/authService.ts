@@ -6,7 +6,7 @@ interface LoginResponse {
 
 export const login = async (email: string, password: string): Promise<string | null> => {
   try {
-    const response = await api.post<LoginResponse>("/login", { email, password });
+    const response = await api.post<LoginResponse>("/auth/login", { email, password });
 
     const token = response.data.token;
     localStorage.setItem("token", token);

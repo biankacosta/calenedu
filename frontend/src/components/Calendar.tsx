@@ -7,9 +7,6 @@ import AddActivityModal from "./AddActivityModal";
 import { createActivity, updateActivity, deleteActivity } from "../services/activityService";
 import ActivityDetailsModal from "./ActivityDetailsModal";
 import ActivityEditModal from "./ActivityEditModal";
-import ConfirmationModal from "./ConfirmationModal";
-import Button from "./Button";
-import api from "../services/api";
 
 const Calendar = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
