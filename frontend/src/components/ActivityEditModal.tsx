@@ -5,6 +5,7 @@ import TimeField from "./TimeField";
 import { TextArea } from "./TextArea";
 import Button from "./Button";
 import { CalendarEvent } from "../services/eventService";
+import { LuPencilLine } from "react-icons/lu";
 
 interface ActivityEditModalProps {
   isOpen: boolean;
@@ -19,7 +20,10 @@ interface ActivityEditModalProps {
 }
 
 const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
-  isOpen, activity, onClose, onSubmit,
+  isOpen,
+  activity,
+  onClose,
+  onSubmit,
 }) => {
   const [title, setTitle] = useState(activity.title);
   const [description, setDescription] = useState(activity.description || "");
@@ -59,32 +63,46 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-      
-      <div className="bg-white p-6 rounded shadow-lg w-96">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">
-          Editar Atividade
-        </h2>
-        <TextField
-          type="text"
-          label="Título"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <TextArea
-          label="Descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <DateField
-          selectedDate={date}
-          onChange={(newDate) => setDate(newDate || new Date())}
-        />
-        <TimeField value={time} onChange={(e) => setTime(e.target.value)} />
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
+      <div className="flex min-h-full items-center justify-center p-4 text-center">
+        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-[90vw] sm:w-full sm:max-w-lg">
+          <div className="bg-[rgb(105,64,185)] pt-5 pb-1 px-4 gap-2 sm:flex sm:flex-row">
+            <LuPencilLine className="text-white text-4xl" />
+            <h2 className="text-2xl font-medium text-white mb-4 ">
+              Editar Atividade
+            </h2>
+          </div>
+          <div className="px-6 pt-4">
+          <TextField
+            type="text"
+            label="Título"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextArea
+            label="Descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="w-full sm:w-1/2">
+          <DateField
+            selectedDate={date}
+            onChange={(newDate) => setDate(newDate || new Date())}
+          />
+          </div>
+          <TimeField value={time} onChange={(e) => setTime(e.target.value)} />
+          </div>
 
-        <div className="mt-4 flex justify-end">
-          <Button onClick={onClose}> Cancelar </Button>
-          <Button onClick={handleSubmit}> Salvar Alterações </Button>
+          <div className="py-5 flex flex-col-reverse sm:flex-row sm:justify-between gap-3">
+            <Button onClick={onClose} variant="outline"> Cancelar </Button>
+            <Button onClick={handleSubmit}> Salvar Alterações </Button>
+          </div>
+          </div>
         </div>
       </div>
     </div>
