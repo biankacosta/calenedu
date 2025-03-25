@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_22_042210) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_24_220845) do
   create_table "activities", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
     t.date "date", null: false
-    t.time "time"
+    t.time "time", default: "2000-01-01 00:00:00"
     t.string "classification", null: false
     t.string "status", default: "ativo", null: false
     t.integer "creator_id"

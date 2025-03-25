@@ -16,6 +16,7 @@ class Activity < ApplicationRecord
   validates :status, presence: true, inclusion: { in: statuses.keys }
 
   before_validation :student_activity_classification_tarefa, on: :create
+  before_save :set_default_time
 
 
   # Método para verificar se a atividade é geral
@@ -47,4 +48,10 @@ class Activity < ApplicationRecord
     end
     self.status ||= "ativo"
   end
+
+  def set_default_time
+    self.time ||= "00:00"
+  end
+
+  
 end
