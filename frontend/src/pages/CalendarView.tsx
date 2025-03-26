@@ -8,11 +8,13 @@ import {
 import AddActivityModal from "../components/AddActivityModal";
 import ActivityDetailsModal from "../components/ActivityDetailsModal";
 import ActivityEditModal from "../components/ActivityEditModal";
-import { CalendarEvent } from "../services/eventService";
+import { getEvents, CalendarEvent } from "../services/eventService";
 import { LuCalendarCheck2 } from "react-icons/lu";
 
 const CalendarView = () => {
   // Estados para controlar os modais
+  const [dateRange, setDateRange] = useState({ start: "", end: "" });
+  const [activities, setActivities] = useState<CalendarEvent[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
     null
@@ -24,6 +26,17 @@ const CalendarView = () => {
     setIsModalOpen(false);
     setIsEditOpen(false);
     setSelectedEvent(null);
+  };
+
+  const refreshActivities = async () => {
+    if (!dateRange.start || !dateRange.end) return; // 🔹 Evita buscar se a data não estiver definida
+
+    try {
+      const data = await getEvents(dateRange.start, dateRange.end);
+      setActivities(data);
+    } catch (error) {
+      console.error("Erro ao atualizar atividades:", error);
+    }
   };
 
   const handleAddActivity = async (data: {
@@ -41,6 +54,7 @@ const CalendarView = () => {
     try {
       const newActivity = await createActivity(data);
       console.log("Atividade criada com sucesso:", newActivity);
+      setActivities((prevActivities) => [...prevActivities, newActivity]);
     } catch (error) {
       console.error("Erro ao criar atividade:", error);
       alert("Ocorreu um erro ao criar a atividade. Tente novamente.");
@@ -48,7 +62,6 @@ const CalendarView = () => {
       handleCloseModals();
     }
   };
-  
 
   const handleSubmitEdit = async (data: {
     title: string;
@@ -70,6 +83,7 @@ const CalendarView = () => {
     try {
       const updatedActivity = await updateActivity(selectedEvent.id, data);
       console.log("Atividade editada com sucesso:", updatedActivity);
+      await refreshActivities();
     } catch (error) {
       console.error("Erro ao atualizar atividade:", error);
       alert("Ocorreu um erro ao atualizar a atividade. Tente novamente.");
@@ -86,6 +100,11 @@ const CalendarView = () => {
     try {
       await deleteActivity(selectedEvent.id);
       console.error("Atividade excluída:", selectedEvent.id);
+
+      setActivities((prevActivities) =>
+        prevActivities.filter((activity) => activity.id !== selectedEvent.id)
+      );
+      await refreshActivities();
     } catch (error) {
       console.error("Erro ao excluir atividade:", error);
     } finally {
@@ -105,6 +124,10 @@ const CalendarView = () => {
       <Calendar
         onOpenModal={handleOpenModal}
         onSelectEvent={setSelectedEvent}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+        events={activities}
+        setEvents={setActivities}
       />
 
       {/* Renderização dos Modais */}
@@ -120,6 +143,7 @@ const CalendarView = () => {
           onClose={handleCloseModals}
           onEdit={() => setIsEditOpen(true)}
           onDelete={handleDeleteActivity}
+          onActivityUpdated={refreshActivities}
         />
       )}
 

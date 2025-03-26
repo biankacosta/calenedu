@@ -17,11 +17,17 @@ export interface CalendarEvent {
 };
 
 // Função para buscar atividades no backend dentro de um intervalo de datas
-export const getEvents = async (startDate: string, endDate: string): Promise<CalendarEvent[]> => {
+export const getEvents = async (
+  startDate?: string, 
+  endDate?: string
+): Promise<CalendarEvent[]> => {
   try {
-    const response = await api.get<CalendarEvent[]>("/activities", {
-      params: { start_date: startDate, end_date: endDate }, 
-    });
+    const params: any = {};
+    if (startDate && endDate) {
+      params.start_date = startDate;
+      params.end_date = endDate;
+    }
+    const response = await api.get<CalendarEvent[]>("/activities", { params });
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar atividades:", error);

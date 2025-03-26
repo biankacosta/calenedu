@@ -10,22 +10,30 @@ import { useActivityDone } from "../hooks/useActivityDone";
 interface CalendarProps {
   onOpenModal: () => void;
   onSelectEvent: (event: CalendarEvent) => void;
+  dateRange: { start: string; end: string };
+  setDateRange: (range: { start: string; end: string }) => void;
+  events: CalendarEvent[];
+  setEvents: React.Dispatch<React.SetStateAction<CalendarEvent[]>>;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent }) => {
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [dateRange, setDateRange] = useState({ start: "", end: "" });
+const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent, dateRange, setDateRange, events, setEvents }) => {
 
   // Função para buscar eventos com base no intervalo de datas
-  const fetchEvents = async (startDate: string, endDate: string) => {
-    const data = await getEvents(startDate, endDate);
-    setEvents(data);
+  const fetchEvents = async (startDate: string, endDate: string): Promise<CalendarEvent[]> => {
+    try {
+      const data = await getEvents(startDate, endDate); // Supondo que `getEvents` retorne os eventos
+      return data; // Retorna os dados
+    } catch (error) {
+      console.error("Erro ao buscar eventos:", error);
+      return []; // Retorna um array vazio em caso de erro
+    }
   };
 
-  // Atualiza os eventos sempre que o intervalo de datas mudar
   useEffect(() => {
     if (dateRange.start && dateRange.end) {
-      fetchEvents(dateRange.start, dateRange.end);
+      fetchEvents(dateRange.start, dateRange.end).then((fetchedEvents) => {
+        setEvents(fetchedEvents); // Passa os eventos diretamente para setEvents
+      });
     }
   }, [dateRange]);
 
@@ -82,6 +90,7 @@ const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent }) => {
         events={events}
         locale={ptLocale}
         height="70vh"
+        
         headerToolbar={{
           left: "title prev,next today",
           right: "AddActivityButton",
