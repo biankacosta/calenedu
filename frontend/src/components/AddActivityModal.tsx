@@ -18,17 +18,19 @@ interface ActivityModalProps {
   }) => void;
 }
 
+// Modal para adicionar uma nova atividade
 const AddActivityModal: React.FC<ActivityModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
 }) => {
+  // Estados para armazenar os valores do formulário
   const [title, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
   
-
+  // Função chamada ao submeter o formulário
   const handleSubmit = () => {
     onSubmit({
       title,

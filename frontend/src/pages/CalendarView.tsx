@@ -21,15 +21,19 @@ const CalendarView = () => {
   );
   const [isEditOpen, setIsEditOpen] = useState(false);
 
+  // Função para abrir o modal de criação de atividade
   const handleOpenModal = () => setIsModalOpen(true);
+
+  // Função para fechar qualquer modal aberto e limpar o evento selecionado
   const handleCloseModals = () => {
     setIsModalOpen(false);
     setIsEditOpen(false);
     setSelectedEvent(null);
   };
 
+  // Função assíncrona para buscar atividades com base no intervalo de datas selecionado
   const refreshActivities = async () => {
-    if (!dateRange.start || !dateRange.end) return; // 🔹 Evita buscar se a data não estiver definida
+    if (!dateRange.start || !dateRange.end) return; // Não busca se a data não estiver definida
 
     try {
       const data = await getEvents(dateRange.start, dateRange.end);
@@ -39,6 +43,7 @@ const CalendarView = () => {
     }
   };
 
+  // Função para adicionar uma nova atividade
   const handleAddActivity = async (data: {
     title: string;
     description: string;
@@ -54,7 +59,7 @@ const CalendarView = () => {
     try {
       const newActivity = await createActivity(data);
       console.log("Atividade criada com sucesso:", newActivity);
-      setActivities((prevActivities) => [...prevActivities, newActivity]);
+      setActivities((prevActivities) => [...prevActivities, newActivity]); // Adiciona a nova atividade à lista
     } catch (error) {
       console.error("Erro ao criar atividade:", error);
       alert("Ocorreu um erro ao criar a atividade. Tente novamente.");
@@ -63,6 +68,7 @@ const CalendarView = () => {
     }
   };
 
+  // Função para editar uma atividade existente
   const handleSubmitEdit = async (data: {
     title: string;
     description: string;
@@ -83,7 +89,7 @@ const CalendarView = () => {
     try {
       const updatedActivity = await updateActivity(selectedEvent.id, data);
       console.log("Atividade editada com sucesso:", updatedActivity);
-      await refreshActivities();
+      await refreshActivities(); // Atualiza a lista de atividades após a edição
     } catch (error) {
       console.error("Erro ao atualizar atividade:", error);
       alert("Ocorreu um erro ao atualizar a atividade. Tente novamente.");
@@ -94,6 +100,7 @@ const CalendarView = () => {
     console.log("Atividade editada:", data);
   };
 
+  // Função para excluir uma atividade existente
   const handleDeleteActivity = async () => {
     if (!selectedEvent) return;
 
@@ -103,7 +110,7 @@ const CalendarView = () => {
 
       setActivities((prevActivities) =>
         prevActivities.filter((activity) => activity.id !== selectedEvent.id)
-      );
+      ); // Remove a atividade da lista
       await refreshActivities();
     } catch (error) {
       console.error("Erro ao excluir atividade:", error);
@@ -130,13 +137,14 @@ const CalendarView = () => {
         setEvents={setActivities}
       />
 
-      {/* Renderização dos Modais */}
+      {/* Modal para adicionar nova atividade */}
       <AddActivityModal
         isOpen={isModalOpen}
         onClose={handleCloseModals}
         onSubmit={handleAddActivity}
       />
 
+      {/* Modal para visualizar detalhes da atividade selecionada */}
       {selectedEvent && !isEditOpen && (
         <ActivityDetailsModal
           event={selectedEvent}
@@ -147,6 +155,7 @@ const CalendarView = () => {
         />
       )}
 
+      {/* Modal para editar a atividade selecionada */}
       {selectedEvent && isEditOpen && (
         <ActivityEditModal
           isOpen={isEditOpen}

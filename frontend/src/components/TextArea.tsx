@@ -1,3 +1,5 @@
+// Componente de área de texto para entrada de longos textos
+
 interface TextAreaProps {
     label: string;
     value: string;

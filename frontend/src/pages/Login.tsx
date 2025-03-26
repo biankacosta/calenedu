@@ -5,6 +5,7 @@ import { login } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import calenEdu from "../assets/CalenEdu.png";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,8 +13,9 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Função chamada ao enviar o formulário de login
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Evita o recarregamento da página
+    e.preventDefault();
     setLoading(true);
     setError("");
 

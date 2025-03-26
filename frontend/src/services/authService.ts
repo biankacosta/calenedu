@@ -5,6 +5,8 @@ interface LoginResponse {
   user_id: string;
 }
 
+// Função assíncrona para autenticar o usuário
+// Envia email e senha para a API e, se a autenticação for bem-sucedida, salva o token e o ID do usuário no localStorage
 export const login = async (email: string, password: string): Promise<string | null> => {
   try {
     const response = await api.post<LoginResponse>("/auth/login", { email, password });
@@ -23,6 +25,8 @@ export const login = async (email: string, password: string): Promise<string | n
   }
 };
 
+// Função para realizar logout do usuário
+// Remove o token do localStorage para invalidar a sessão
 export const logout = () => {
   localStorage.removeItem("token");
 };

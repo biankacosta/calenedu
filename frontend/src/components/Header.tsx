@@ -3,6 +3,7 @@ import { logout } from "../services/authService";
 import Button from "./Button";
 import calenEdu from "../assets/CalenEdu.png";
 
+// Componente de header da aplicação
 const Header = () => {
   const navigate = useNavigate();
 

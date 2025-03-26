@@ -11,6 +11,7 @@ export interface ActivityData {
 }
 
 //Função assíncrone de criação de atividade
+//Envia os dados da atividade para a API e retorna a resposta
 export const createActivity = async (data: ActivityData) => {
   try {
     const response = await api.post("/activities", data);
@@ -20,6 +21,8 @@ export const createActivity = async (data: ActivityData) => {
   }
 };
 
+// Função assíncrona para atualizar uma atividade existente
+// Envia os dados atualizados da atividade para a API e retorna a resposta
 export const updateActivity = async (id: string, data: ActivityData) => {
   try {
     const response = await api.patch(`/activities/${id}`, data);
@@ -29,7 +32,8 @@ export const updateActivity = async (id: string, data: ActivityData) => {
   }
 };
 
-
+// Função assíncrona para excluir uma atividade
+// Envia uma requisição DELETE para a API para remover a atividade e retorna a resposta
 export const deleteActivity = async (id: string) => {
   try {
     const response = await api.delete(`/activities/${id}`);
@@ -39,6 +43,8 @@ export const deleteActivity = async (id: string) => {
   }
 };
 
+// Função assíncrona para atualizar o status de uma atividade de um estudante
+// Envia os dados de atualização para a API e retorna a resposta
 export const updateActivityDone = async (activityId: string, userId: string, done: boolean) => {
   try {
     const response = await api.patch(`/student_activities/update_status`, {

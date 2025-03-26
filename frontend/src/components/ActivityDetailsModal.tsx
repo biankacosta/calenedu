@@ -13,6 +13,7 @@ interface ActivityDetailsModalProps {
   onActivityUpdated?: () => void;
 }
 
+// Componente que exibe os detalhes de uma atividade
 const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
   event,
   onClose,
@@ -20,7 +21,9 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
   onEdit,
   onActivityUpdated,
 }) => {
+  // Estado para controlar a exibição da confirmação de exclusão
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  // Estado para indicar se a atividade foi concluída
   const [activityDone, setActivityDone] = useState(
     event.activity_done || false
   );
@@ -30,9 +33,11 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
   const userId = localStorage.getItem("user_id");
   const isOwner = event.creator_id.toString() === userId;
 
+  // Verifica se a atividade é do tipo "tarefa"
   const isTarefa = event.classification.toString() === "tarefa";
   console.log(isTarefa);
 
+  // Função para atualizar o status da atividade como concluída ou não
   const handleCheckboxChange = async (
     e?: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -48,6 +53,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
     }
   };
 
+  // Função para deletar a atividade
   const handleDelete = () => {
     onDelete(event.id);
     if (onActivityUpdated) {
@@ -57,10 +63,12 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
     onClose();
   };
 
+  // Função para cancelar a exclusão da atividade
   const handleConfirmationCancel = () => {
     setIsConfirmationOpen(false);
   };
 
+  // Função para abrir o modal de confirmação de exclusão
   const handleDeleteClick = () => {
     setIsConfirmationOpen(true);
   };

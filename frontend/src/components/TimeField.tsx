@@ -1,5 +1,6 @@
 import React from "react";
 
+// Componente de campo de entrada para seleção de horário
 interface TimeFieldProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -2,6 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+// Componente de campo para seleção de data
 interface DateFieldProps {
   selectedDate: Date;
   onChange: (date: Date) => void;

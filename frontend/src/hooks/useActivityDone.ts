@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { updateActivityDone } from "../services/activityService";
 
+// Hook personalizado para atualizar o status de conclusão de uma atividade
 export function useActivityDone() {
   const [loading, setLoading] = useState(false);
 

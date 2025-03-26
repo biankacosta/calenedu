@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./Button";
 import { IoWarningOutline } from "react-icons/io5";
 
+// Modal para confirmação (deletar)
 interface ConfirmationModalProps {
   isOpen: boolean;
   title?: string;

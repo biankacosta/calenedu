@@ -20,12 +20,14 @@ interface ActivityEditModalProps {
   }) => void;
 }
 
+// Componente para editar uma atividade existente
 const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
   isOpen,
   activity,
   onClose,
   onSubmit,
 }) => {
+   // Estados para armazenar os valores do formulário
   const [title, setTitle] = useState(activity.title);
   const [description, setDescription] = useState(activity.description || "");
   const [date, setDate] = useState<Date>(() => {
@@ -34,6 +36,7 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
   });
   const [time, setTime] = useState("");
 
+  // Atualiza os valores do formulário quando a atividade muda
   useEffect(() => {
     setTitle(activity.title);
     setDescription(activity.description || "");
@@ -47,6 +50,7 @@ const ActivityEditModal: React.FC<ActivityEditModalProps> = ({
     }
   }, [activity]);
 
+  // Função chamada ao submeter o formulário
   const handleSubmit = () => {
     if (!title.trim()) {
       alert("O campo Nome é obrigatório.");

@@ -1,5 +1,6 @@
 import React from "react";
 
+// Componente de implementação do checkbox
 interface CheckboxFieldProps {
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

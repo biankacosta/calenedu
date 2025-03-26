@@ -1,5 +1,6 @@
 import React from "react";
 
+// Componente de campo de entrada de texto genérico
 interface TextFieldProps {
   type: "text" | "email" | "password" | "number";
   label: string;
@@ -13,7 +14,7 @@ const TextField: React.FC<TextFieldProps> = ({type, label, value, onChange, plac
     <div className="mb-4">
       <label className="block text-base font-medium text-gray-700">{label}</label>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

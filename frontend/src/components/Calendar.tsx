@@ -21,14 +21,15 @@ const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent, dateRan
   // Função para buscar eventos com base no intervalo de datas
   const fetchEvents = async (startDate: string, endDate: string): Promise<CalendarEvent[]> => {
     try {
-      const data = await getEvents(startDate, endDate); // Supondo que `getEvents` retorne os eventos
-      return data; // Retorna os dados
+      const data = await getEvents(startDate, endDate); // Chama a API para obter os eventos
+      return data;
     } catch (error) {
       console.error("Erro ao buscar eventos:", error);
-      return []; // Retorna um array vazio em caso de erro
+      return [];
     }
   };
 
+  // useEffect para monitorar mudanças no intervalo de datas e busca eventos
   useEffect(() => {
     if (dateRange.start && dateRange.end) {
       fetchEvents(dateRange.start, dateRange.end).then((fetchedEvents) => {
@@ -37,6 +38,7 @@ const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent, dateRan
     }
   }, [dateRange]);
 
+  // Componente para personalizar o conteúdo dos eventos no calendário
   const InlineEventContent: React.FC<{ eventInfo: any }> = ({ eventInfo }) => {
     const event: CalendarEvent = {
       ...eventInfo.event.extendedProps,
@@ -48,7 +50,8 @@ const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent, dateRan
       event.activity_done || false
     );
     const { loading, handleCheckboxUpdate } = useActivityDone();
-
+    
+    // Função para lidar com a alteração do checkbox e atualizar o status da atividade
     const handleCheckboxChange = async (
       e?: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -101,12 +104,14 @@ const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent, dateRan
             click: onOpenModal,
           },
         }}
+        // Atualiza o intervalo de datas ao navegar no calendário
         datesSet={(info) => {
           setDateRange({
             start: info.startStr,
             end: info.endStr,
           });
         }}
+        // Abre o modal ao clicar em um evento
         eventClick={(info) => {
           const event = events.find((e) => String(e.id) === info.event.id);
           if (event) {
@@ -114,6 +119,7 @@ const Calendar: React.FC<CalendarProps> = ({ onOpenModal, onSelectEvent, dateRan
           }
         }}
         eventContent={renderEventContent}
+        // Modifica a aparência dos eventos com base na classificação
         eventDidMount={(info) => {
           const event = info.event;
           const category = event.extendedProps.classification;
